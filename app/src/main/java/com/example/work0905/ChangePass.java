@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 public class ChangePass extends AppCompatActivity {
 
@@ -20,8 +21,11 @@ public class ChangePass extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ChangePass.this, SettingsPage.class);
-                startActivity(intent);
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    getSupportFragmentManager().popBackStackImmediate();
+                } else {
+                    finish();
+                }
             }
         });
     }

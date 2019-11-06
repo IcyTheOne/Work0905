@@ -75,7 +75,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias=".17"
-            app:layout_constraintVertical_bias="0.64"
+            app:layout_constraintVertical_bias="0.62"
             android:textColor="#333"/>
 
         <EditText
@@ -100,7 +100,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.72"/>
+            app:layout_constraintVertical_bias="0.7"/>
 
         <ImageButton
             android:paddingStart="10dp"
@@ -108,12 +108,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintWidth_percent=".8"
-            app:layout_constraintHeight_percent=".05"
+            app:layout_constraintHeight_percent=".065"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.78"
+            app:layout_constraintVertical_bias="0.79"
             app:layout_constraintTop_toBottomOf="@+id/pass_et"
             android:contentDescription="@string/login_btn"
             android:id="@+id/loginBtn"

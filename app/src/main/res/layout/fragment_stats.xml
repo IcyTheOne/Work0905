@@ -4,80 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StatsPage"
+    tools:context=".StatsFragment"
     android:background="#FFF">
 
     <ImageButton
-        android:contentDescription="@string/home_btn"
-        android:id="@+id/homeBtn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.1"
-        android:layout_gravity="start"
-        android:background="@drawable/home_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent=".3333"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <ImageButton
-        android:contentDescription="@string/stats_btn"
-        android:id="@+id/statsBtn"
-        android:layout_width="0dp"
-        app:layout_constraintWidth_percent=".3333"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.1"
-        android:background="@drawable/stats_btn"
-        app:layout_constraintEnd_toStartOf="@+id/settingsBtn"
-        app:layout_constraintStart_toEndOf="@+id/homeBtn"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <ImageButton
-        android:contentDescription="@string/settings_btn"
-        android:id="@+id/settingsBtn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/settings_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintStart_toEndOf="@+id/statsBtn"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent=".3333"/>
-
-    <ImageButton
-        android:contentDescription="@string/all_time_btn"
         android:id="@+id/allTimeBtn"
+        app:layout_constraintStart_toEndOf="@+id/preMonthBtn"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/all_time_btn"
+        android:contentDescription="@string/all_time_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintStart_toEndOf="@+id/statsBtn"
-        app:layout_constraintTop_toBottomOf="@id/settingsBtn"
         app:layout_constraintWidth_percent=".3333"/>
 
     <ImageButton
-        android:contentDescription="@string/pre_month_btn"
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/preMonthBtn"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/pre_months_btn"
+        android:contentDescription="@string/pre_month_btn"
         app:layout_constraintEnd_toStartOf="@id/allTimeBtn"
         app:layout_constraintHeight_percent="0.06"
         app:layout_constraintStart_toEndOf="@+id/thisMonthBtn"
-        app:layout_constraintTop_toBottomOf="@id/statsBtn"
         app:layout_constraintWidth_percent=".3333"/>
 
     <ImageButton
-        android:contentDescription="@string/this_month_btn"
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/thisMonthBtn"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/this_month_btn"
+        android:contentDescription="@string/this_month_btn"
         app:layout_constraintEnd_toStartOf="@id/preMonthBtn"
         app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/homeBtn"
         app:layout_constraintWidth_percent=".3333"/>
 
     <TextView
