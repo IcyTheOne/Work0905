@@ -1,3 +1,45 @@
 <resources>
     <string name="app_name">Work0905</string>
+
+    <!-- |Login Page| -->
+    <string name="username_ET">Username:</string>
+    <string name="password_ET">Password:</string>
+
+    <!-- |Home Page| -->
+    <string name="company_name">Company Name:</string>
+    <string name="email">E-mail:</string>
+
+    <!-- |Settings Page| -->
+    <string name="employee_id">Employee ID:</string>
+    <string name="new_email">New E-Mail:</string>
+    <string name="repeat_email">Repeat E-Mail:</string>
+    <string name="new_pass">New Password:</string>
+    <string name="repeat_pass">Repeat Password:</string>
+
+    <!-- |Stats Page| -->
+    <string name="total_hours">Total Hours Worked:</string>
+    <string name="overtime_hours">Hours of Overtime:</string>
+
+    <!-- | Content Descriptions | -->
+    <string name="save_changes">Save Changes Button</string>
+    <string name="home_btn">Home Button</string>
+    <string name="stats_btn">Statistics Button</string>
+    <string name="settings_btn">Settings Button</string>
+    <string name="logo">App Logo</string>
+    <string name="checkin_btn">Check-in Check-out Button</string>
+    <string name="login_btn">Login Button</string>
+    <string name="logout_btn">Logout Button</string>
+    <string name="change_email_btn">Change Email Button</string>
+    <string name="change_pass_btn">Change Password Button</string>
+    <string name="this_month_btn">This Month Button</string>
+    <string name="pre_month_btn">Previous Month Button</string>
+    <string name="all_time_btn">All Time Button</string>
+    <string name="change_pass">Change Password TitleBar</string>
+    <string name="change_email">Change E-Mail TitleBar</string>
+    <string name="back_btn">Back Button</string>
+
+    <!-- | ET Hints | -->
+    <string name="username_hint">Enter Username&#8230;</string>
+    <string name="pass_hint">Enter Password&#8230;</string>
+    <string name="email_hint">Enter E-mail&#8230;</string>
 </resources>

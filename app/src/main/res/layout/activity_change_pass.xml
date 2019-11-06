@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChangePass"
+    android:background="#FFF">
+
+    <ImageView
+        android:contentDescription="@string/change_pass"
+        android:id="@+id/pass_tb"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/change_pass_tb"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintHeight_percent=".1"/>
+
+    <ImageButton
+        android:contentDescription="@string/back_btn"
+        android:id="@+id/back_btn"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/back_btn"
+        app:layout_constraintTop_toTopOf="@id/pass_tb"
+        app:layout_constraintBottom_toBottomOf="@id/pass_tb"
+        app:layout_constraintStart_toStartOf="@id/pass_tb"
+        app:layout_constraintEnd_toEndOf="@id/pass_tb"
+        app:layout_constraintHorizontal_bias=".03"
+        app:layout_constraintVertical_bias=".5"
+        app:layout_constraintWidth_percent=".06"
+        app:layout_constraintHeight_percent=".04"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_pass"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias=".17"
+        app:layout_constraintVertical_bias="0.36"
+        android:textColor="#333" />
+
+    <EditText
+        android:hint="@string/pass_hint"
+        android:autofillHints="@string/password_ET"
+        tools:targetApi="o"
+        android:id="@+id/new_pass_et"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent=".8"
+        app:layout_constraintHeight_percent=".065"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.405"
+        android:background="@drawable/edit_text"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/repeat_pass"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias=".17"
+        app:layout_constraintVertical_bias="0.5"
+        android:textColor="#333" />
+
+    <EditText
+        android:hint="@string/pass_hint"
+        android:autofillHints="@string/repeat_pass"
+        tools:targetApi="o"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:id="@+id/repeat_pass_et"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintWidth_percent=".8"
+        app:layout_constraintHeight_percent=".065"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.545"
+        android:background="@drawable/edit_text"
+        android:inputType="textPassword" />
+
+    <ImageButton
+        android:contentDescription="@string/save_changes"
+        android:id="@+id/change_email"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/save_changes_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7"
+        app:layout_constraintWidth_percent="0.8"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
