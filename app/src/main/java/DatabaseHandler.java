@@ -1,9 +1,6 @@
-import android.database.SQLException;
-
-
-import com.mysql.jdbc.Connection;
-
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DatabaseHandler {
 
@@ -11,23 +8,25 @@ public class DatabaseHandler {
     static String user = "work0905db";
     static String password = "Oa4fXkQ?6S9!";
 
-    public static Connection getConnection (String url,
-                                            String user,
-                                            String password){
+    public static void getConnection(){
+        try {
+            Connection myConn = DriverManager.getConnection(url,user,password);
 
-        return null;
-    }
-
-
-
-    public static void connectDatabase(){
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
     }
+
+
+
+
 
 
 
     public static void login(String employeeID,String password){
+
 
 
     }
