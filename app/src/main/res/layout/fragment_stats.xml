@@ -44,55 +44,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent=".3333"/>
 
-    <TextView
-        android:id="@+id/total_hours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias=".25"
-        android:text="@string/total_hours"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/total_hours_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias=".25"
-        app:layout_constraintHorizontal_bias=".1"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/total_hours"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/preMonthBtn"
+        android:id="@+id/fragment_container_stats"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <TextView
-        android:id="@+id/overtime_hours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias=".35"
-        android:text="@string/overtime_hours"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/overtime_hours_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias=".35"
-        app:layout_constraintHorizontal_bias=".1"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/overtime_hours"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

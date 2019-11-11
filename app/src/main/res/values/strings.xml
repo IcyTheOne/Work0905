@@ -37,6 +37,7 @@
     <string name="change_pass">Change Password TitleBar</string>
     <string name="change_email">Change E-Mail TitleBar</string>
     <string name="back_btn">Back Button</string>
+    <string name="listview_cd">Button Showing the Months</string>
 
     <!-- | ET Hints | -->
     <string name="username_hint">Enter Username&#8230;</string>

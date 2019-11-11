@@ -8,12 +8,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class StatsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
 
+        FragmentManager fm = getChildFragmentManager();
+        final Fragment fragment = fm.findFragmentById(R.id.fragment_container_stats);
+        fm.beginTransaction().add(R.id.fragment_container_stats, new ThisMonthFragment()).addToBackStack(null).commit();
 
 
 
