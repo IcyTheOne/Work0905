@@ -1,30 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/listview_bar"
         android:contentDescription="@string/listview_cd"
         android:background="@drawable/listview_design"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.15"/>
+         android:layout_width="match_parent"
+        android:layout_height="100dp"/>
 
         <TextView
+            android:layout_marginTop="23dp"
+            android:layout_centerHorizontal="true"
             android:id="@+id/month_listview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="40sp"
             android:textColor="#FFF"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/listview_bar"
-            app:layout_constraintStart_toStartOf="@+id/listview_bar"
-            app:layout_constraintTop_toTopOf="@+id/listview_bar"
-            app:layout_constraintBottom_toBottomOf="@+id/listview_bar"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:textStyle="bold" />
+</RelativeLayout>
