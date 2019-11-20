@@ -37,6 +37,7 @@
         app:layout_constraintHeight_percent=".04"/>
 
     <TextView
+        android:textSize="17sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_email"
@@ -45,8 +46,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias=".17"
-        app:layout_constraintVertical_bias="0.36"
-        android:textColor="#333" />
+        app:layout_constraintVertical_bias="0.35"
+        android:textColor="#000" />
 
     <EditText
         android:autofillHints="@string/new_email"
@@ -76,8 +77,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintHorizontal_bias=".17"
-        app:layout_constraintVertical_bias="0.5"
-        android:textColor="#333" />
+        android:textSize="17sp"
+        app:layout_constraintVertical_bias="0.49"
+        android:textColor="#000" />
 
     <EditText
         android:hint="@string/email_hint"

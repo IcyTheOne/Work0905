@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:background="#FFF"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="January"
+        android:textColor="#000"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:textColor="#000"
+        android:layout_width="wrap_content"
+        android:id="@+id/total_hours"
+        android:layout_height="30dp"
+        android:text="@string/total_hours"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"/>
+
+    <TextView
+        android:id="@+id/total_hours_all_time"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:textSize="25sp"
+        android:layout_marginStart="20dp"
+        android:text="222 Hours"/>
+
+    <TextView
+        android:textColor="#000"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/overtime_hours"
+        android:layout_height="30dp"
+        android:text="@string/overtime_hours"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/overtime_all_time"
+        android:layout_width="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_height="35dp"
+        android:textSize="25sp"
+        android:text="222 Hours"/>
+
+    <TextView
+        android:textColor="#000"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_width="wrap_content"
+        android:id="@+id/estimated_salary"
+        android:layout_height="30dp"
+        android:text="@string/estimated_salary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/estimated_salary_all_time"
+        android:layout_marginStart="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:textSize="25sp"
+        android:text="1321 $"/>
+
+</LinearLayout>

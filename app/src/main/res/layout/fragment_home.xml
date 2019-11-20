@@ -18,6 +18,7 @@
         android:background="@drawable/logo"/>
 
     <TextView
+        android:textColor="#000"
         android:id="@+id/company_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,6 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
+        android:textColor="#000"
         android:layout_width="wrap_content"
         android:id="@+id/email"
         android:layout_height="wrap_content"
