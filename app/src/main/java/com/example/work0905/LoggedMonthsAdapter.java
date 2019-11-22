@@ -30,18 +30,21 @@ public class LoggedMonthsAdapter extends ArrayAdapter<LoggedMonths> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         String month = getItem(position).getMonth();
+        String year = getItem(position).getYear();
         int totalHours = getItem(position).getTotalHours();
         int overtimeHours = getItem(position).getOvertimeHours();
         int estimatedSalary = getItem(position).getEstimatedSalary();
 
-        LoggedMonths months = new LoggedMonths(month, totalHours, overtimeHours, estimatedSalary);
+        LoggedMonths months = new LoggedMonths(month, year, totalHours, overtimeHours, estimatedSalary);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
 
         TextView tvMonth = convertView.findViewById(R.id.month_listview);
+        TextView tvYear = convertView.findViewById(R.id.year_listview);
 
         tvMonth.setText(month);
+        tvYear.setText(year);
         return convertView;
     }
 }

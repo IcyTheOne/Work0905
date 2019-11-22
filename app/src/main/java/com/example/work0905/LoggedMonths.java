@@ -2,15 +2,25 @@ package com.example.work0905;
 
 public class LoggedMonths {
     private String month;
+    private String year;
     private int totalHours;
     private int overtimeHours;
     private int estimatedSalary;
 
-    public LoggedMonths(String month, int totalHours, int overtimeHours, int estimatedSalary) {
+    public LoggedMonths(String month, String year, int totalHours, int overtimeHours, int estimatedSalary) {
         this.month = month;
+        this.year = year;
         this.totalHours = totalHours;
         this.overtimeHours = overtimeHours;
         this.estimatedSalary = estimatedSalary;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public String getMonth() {

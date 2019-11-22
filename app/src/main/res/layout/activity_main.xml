@@ -7,24 +7,25 @@
     android:background="#FFF"
     android:padding="20dp">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:layout_margin="60dp"
-        android:layout_marginTop="45dp"
-        android:background="@drawable/logo"
-        android:contentDescription="@string/logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15"/>
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_margin="60dp"
+            android:layout_marginTop="45dp"
+            android:background="@drawable/logo"
+            android:contentDescription="@string/logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.15"/>
 
         <TextView
             app:layout_constraintTop_toBottomOf="@id/logo"
             android:text="@string/username_ET"
+            android:textSize="17sp"
             android:id="@+id/username_tv"
             app:layout_constraintWidth_percent=".8"
             app:layout_constraintHeight_percent=".04"
@@ -34,9 +35,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias=".17"
+            app:layout_constraintHorizontal_bias=".16"
             app:layout_constraintVertical_bias="0.5"
-            android:textColor="#333"/>
+            android:textColor="#000"/>
 
         <EditText
             app:layout_constraintTop_toBottomOf="@+id/username_tv"
@@ -60,9 +61,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.57"/>
+            app:layout_constraintVertical_bias="0.575"/>
 
         <TextView
+            android:textSize="17sp"
             app:layout_constraintTop_toBottomOf="@+id/username_et"
             android:text="@string/password_ET"
             android:id="@+id/pass_tv"
@@ -74,9 +76,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias=".17"
+            app:layout_constraintHorizontal_bias=".16"
             app:layout_constraintVertical_bias="0.62"
-            android:textColor="#333"/>
+            android:textColor="#000"/>
 
         <EditText
             android:textColor="#909090"
@@ -102,6 +104,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintVertical_bias="0.7"/>
 
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/save_login_cb"
+            android:text="@string/save_login_cb"
+            app:layout_constraintTop_toBottomOf="@id/pass_et"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/loginBtn"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:buttonTint="@color/styleColor"/>
+
         <ImageButton
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
@@ -113,7 +129,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.79"
+            app:layout_constraintVertical_bias="0.83"
             app:layout_constraintTop_toBottomOf="@+id/pass_et"
             android:contentDescription="@string/login_btn"
             android:id="@+id/loginBtn"

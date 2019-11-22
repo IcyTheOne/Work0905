@@ -17,6 +17,7 @@ public class SettingsFragment extends Fragment {
 
         ImageButton passChange = view.findViewById(R.id.change_password);
         ImageButton emailChange = view.findViewById(R.id.change_email);
+        ImageButton logoutBtn = view.findViewById(R.id.logout);
 
         passChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +35,13 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         return view;

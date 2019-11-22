@@ -4,6 +4,7 @@
     <!-- |Login Page| -->
     <string name="username_ET">Username:</string>
     <string name="password_ET">Password:</string>
+    <string name="save_login_cb">Save Login Information</string>
 
     <!-- |Home Page| -->
     <string name="company_name">Company Name:</string>
