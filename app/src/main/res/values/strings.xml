@@ -47,4 +47,7 @@
     <string name="pass_hint">Enter Password&#8230;</string>
     <string name="email_hint">Enter E-mail&#8230;</string>
 
+    <!-- | Error Messages | -->
+    <string name="email_error_msg"># Please enter a valid email address!</string>
+
 </resources>

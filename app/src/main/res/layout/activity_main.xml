@@ -136,4 +136,32 @@
             android:layout_gravity="center"
             android:background="@drawable/login_btn" />
 
+        <TextView
+            android:id="@+id/errorMsg_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="350dp"
+            android:text="# Error reporting message !"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginBtn"
+            app:layout_constraintVertical_bias="0.127" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="55dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/errorMsg_tv"
+            app:layout_constraintVertical_bias="0.342" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -13,10 +15,23 @@ import android.view.View;
 import android.widget.ImageButton;
 
 public class NavigationBar extends AppCompatActivity {
+
+    public SharedPreferences sharedPreferences;
+
+    // User info that can be accessed by the fragments
+    public static final String PREF_NAME = "prefs";
+    public static final String KEY_USERNAME = "username";
+    public static final String KEY_PASSWORD = "password";
+    public static String username;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_bar);
+
+        sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        username = sharedPreferences.getString(KEY_USERNAME,"");
 
         FragmentManager fm = getSupportFragmentManager();
         final Fragment fragment = fm.findFragmentById(R.id.fragment_container);
