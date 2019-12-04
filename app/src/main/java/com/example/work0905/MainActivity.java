@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
             public void onClick(View view) {
 
                 LogInTask logInTask = new LogInTask(MainActivity.this);
-                logInTask.execute();
+                logInTask.execute(username.getText().toString().trim(), password.getText().toString().trim());
 //                checkInput();
             }
         });
@@ -118,11 +118,10 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
      * Used to avoid the networking error thrown by the UI thread.
      * (UI thread is not able to handle network operations and such assignment has to handed in a separate task-thread)
      **/
-    private static class LogInTask extends AsyncTask<Void, Void, Boolean> {
+    private static class LogInTask extends AsyncTask<String, Void, Boolean> {
 
         private DatabaseHandler dbHandler = new DatabaseHandler();
         private String uname;
-        private String pass;
 
         private WeakReference<MainActivity> activityWeakReference;
 
@@ -150,15 +149,14 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
             }
             // Making a STRONG reference to MainActivity's progressBar View element
             activity.progressBar.setVisibility(View.VISIBLE);
-            uname = activity.username.getText().toString().trim();
-            pass = activity.password.getText().toString().trim();
         }
 
         @Override
-        protected Boolean doInBackground(Void... voids) {
-            if(dbHandler.openDbConnection() &&
-                    dbHandler.userAuthentication(uname, pass)){
+        protected Boolean doInBackground(String... strings) {
+            if(dbHandler.openDbConnection(DatabaseHandler.FOR_LOG_IN) &&
+                    dbHandler.userAuthentication(strings[0], strings[1])){
                 dbHandler.closeDbConnection();
+                uname = strings[0];
                 // Connection to db successful
                 return true;
             }

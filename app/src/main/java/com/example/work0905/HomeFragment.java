@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            if(dbHandler.openDbConnection() && dbHandler.checkInOut(username)){
+            if(dbHandler.openDbConnection(DatabaseHandler.FOR_CHECK_IN_OUT) && dbHandler.checkInOut(username)){
                 dbHandler.closeDbConnection();
                 // Connection to db successful
                 return true;
