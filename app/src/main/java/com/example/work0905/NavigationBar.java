@@ -11,14 +11,20 @@ import android.content.SharedPreferences;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.example.work0905.model.Employee;
+
 public class NavigationBar extends AppCompatActivity {
 
-    public SharedPreferences sharedPreferences;
+    private static final String TAG = "NavigationBar";
 
-    // User info that can be accessed by the fragments
+    public SharedPreferences sharedPreferences;
+    public Employee employee;
+
+    // User info that can be accessed by the fragments attached on this activity
     public static final String PREF_NAME = "prefs";
     public static final String KEY_USERNAME = "username";
     public static final String KEY_PASSWORD = "password";
@@ -29,6 +35,9 @@ public class NavigationBar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_bar);
+
+        employee = (Employee) getIntent().getSerializableExtra("Employee");
+        Log.i(TAG, "User employee: " + employee.getEmail());
 
         sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString(KEY_USERNAME,"");

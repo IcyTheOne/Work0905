@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +19,7 @@ import java.lang.ref.WeakReference;
 public class HomeFragment extends Fragment {
 
     private ImageButton checkInOut;
-    private static String username;
+    private String username;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -29,6 +30,8 @@ public class HomeFragment extends Fragment {
         checkInOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CheckInOutTask checkInOutTask = new CheckInOutTask(HomeFragment.this);
+                checkInOutTask.execute();
                 System.out.println("\n\n" + username + "\n\n");
             }
         });
@@ -45,13 +48,12 @@ public class HomeFragment extends Fragment {
 
         private DatabaseHandler dbHandler = new DatabaseHandler();
         private String uname;
-        private String pass;
 
         private WeakReference<HomeFragment> fragmentWeakReference;
 
         // Our AsyncTask constructor
-        CheckInOutTask(HomeFragment activity) {
-            fragmentWeakReference = new WeakReference<HomeFragment>(activity);
+        CheckInOutTask(HomeFragment fragment) {
+            fragmentWeakReference = new WeakReference<>(fragment);
         }
 
         @Override
@@ -71,11 +73,12 @@ public class HomeFragment extends Fragment {
             if(fragment == null || fragment.isRemoving()) {
                 return;
             }
+            uname = fragment.username;
         }
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            if(dbHandler.openDbConnection(DatabaseHandler.FOR_CHECK_IN_OUT) && dbHandler.checkInOut(username)){
+            if(dbHandler.openDbConnection(DatabaseHandler.FOR_CHECK_IN_OUT) && dbHandler.checkInOut(uname)){
                 dbHandler.closeDbConnection();
                 // Connection to db successful
                 return true;
@@ -96,8 +99,10 @@ public class HomeFragment extends Fragment {
 
 
             if(result){
-//                Toast.makeText(NavigationBar.getApplicationContext(), "Logged In as\n\n" + uname,Toast.LENGTH_LONG).show();
+                Toast.makeText(fragment.getContext(), "User CheckInOut Successful!", Toast.LENGTH_LONG).show();
+                System.out.println("User CheckInOut Successful! : " + uname);
             } else {
+                System.out.println("User CheckInOut Unsuccessful! : " + uname);
 
             }
         }

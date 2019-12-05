@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.work0905.model.Employee;
 import com.example.work0905.util.DatabaseHandler;
 
 import java.lang.ref.WeakReference;
@@ -29,8 +30,9 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
     private CheckBox rem_userpass;
     private TextView error_message;
     private ProgressBar progressBar;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private Employee employee;
     private static final String PREF_NAME = "prefs";
     private static final String KEY_REMEBER = "remeber";
     private static final String KEY_USERNAME = "username";
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
 
         sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        employee = new Employee();
         username = findViewById(R.id.username_et);
         password = findViewById(R.id.pass_et);
         rem_userpass = findViewById(R.id.save_login_cb);
@@ -122,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
 
         private DatabaseHandler dbHandler = new DatabaseHandler();
         private String uname;
+        private Employee employee;
 
         private WeakReference<MainActivity> activityWeakReference;
 
@@ -149,12 +153,13 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
             }
             // Making a STRONG reference to MainActivity's progressBar View element
             activity.progressBar.setVisibility(View.VISIBLE);
+            employee = activity.employee;
         }
 
         @Override
         protected Boolean doInBackground(String... strings) {
             if(dbHandler.openDbConnection(DatabaseHandler.FOR_LOG_IN) &&
-                    dbHandler.userAuthentication(strings[0], strings[1])){
+                    dbHandler.userAuthentication(strings[0], strings[1], employee)){
                 dbHandler.closeDbConnection();
                 uname = strings[0];
                 // Connection to db successful
@@ -178,7 +183,10 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
 
             if(result){
                 Toast.makeText(activity.getApplicationContext(), "Logged In as\n\n" + uname,Toast.LENGTH_LONG).show();
-                activity.startActivity(new Intent(activity, NavigationBar.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                Intent intent = new Intent(activity, NavigationBar.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("Employee", employee);
+                activity.startActivity(intent);
             } else {
                 activity.error_message.setTextColor(Color.RED);
                 activity.error_message.setText("# Something went wrong!\nPlease try again");

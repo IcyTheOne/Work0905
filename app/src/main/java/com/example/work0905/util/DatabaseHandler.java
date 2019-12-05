@@ -1,10 +1,16 @@
 package com.example.work0905.util;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.example.work0905.model.Employee;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseHandler {
 
@@ -14,7 +20,14 @@ public class DatabaseHandler {
     private static final String url = "jdbc:mysql://den1.mysql6.gear.host:3306/" + dbName;
     private static final String password = "Oa4fXkQ?6S9!";
 
-    // CONSTANTS used to insert the correct QUERY to the PREPARED statement, when we open
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private static final String PREF_NAME = "prefs";
+    private static final String KEY_REMEBER = "remeber";
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_PASSWORD = "password";
+
+    // CONSTANTS used to insert the correct QUERY to the PREPARED simpleStatement, when we open
     // connection with database (openDbConnection method).
     public static final int FOR_LOG_IN = 1;
     public static final int FOR_CHECK_IN_OUT = 2;
@@ -23,10 +36,10 @@ public class DatabaseHandler {
      * Database tables and columns
      **/
     // Table holding details specific for each employee
-    private static final String TABLE_EMPLOYEES = "employees";
-    private static final String COLUMN_EMPLOYEES_ID = "`id_employee`";
+    public static final String TABLE_EMPLOYEES = "employees";
+    public static final String COLUMN_EMPLOYEES_ID = "id_employee";
     public static final String COLUMN_EMPLOYEES_EMAIL = "email";
-    public static final String COLUMN_EMPLOYEES_PASSWORD = "`password`";
+    public static final String COLUMN_EMPLOYEES_PASSWORD = "password";
     public static final String COLUMN_EMPLOYEES_NAME = "name";
     public static final String COLUMN_EMPLOYEES_LAST_NAME = "last_name";
     public static final String COLUMN_EMPLOYEES_SALARY = "salary";
@@ -36,7 +49,7 @@ public class DatabaseHandler {
     public static final String COLUMN_EMPLOYEES_HOLIDAYS_BONUS = "holidays_bonus";
 
     // Each employee has it's own workdays table
-    public static final String TABLE_WORKDAYS = "workdays_?";
+    public static final String TABLE_WORKDAYS = "workdays_";
     public static final String COLUMN_WORKDAYS_WORKDAY_ID = "id_workday";
     public static final String COLUMN_WORKDAYS_DATE = "date";
     public static final String COLUMN_WORKDAYS_CHECK_IN = "check_in";
@@ -44,10 +57,16 @@ public class DatabaseHandler {
     public static final String COLUMN_WORKDAYS_MINUTES_WORKED = "minutes_worked";
     public static final String COLUMN_WORKDAYS_OVERTIME = "overtime";
 
-    // Prepared Statement Queries
-    private static final String QUERY_USER_AUTHENTICATION = "SELECT " + COLUMN_EMPLOYEES_PASSWORD + " FROM " + TABLE_EMPLOYEES + " WHERE " + COLUMN_EMPLOYEES_ID + " =?";
-    public static final String QUERY_USER_CHECK_IN_OUT = "CREATE TABLE IF NOT EXISTS " + dbName + "." + TABLE_WORKDAYS + "(" +
-            COLUMN_WORKDAYS_WORKDAY_ID + " INT NOT NULL, " +
+    /**
+     * Queries
+     **/
+//    private static final String QUERY_USER_AUTHENTICATION = "SELECT " + COLUMN_EMPLOYEES_PASSWORD + " FROM " + TABLE_EMPLOYEES + " WHERE " + COLUMN_EMPLOYEES_ID + " =?";
+    private static final String QUERY_GET_EMPLOYEE_DETAILS = "SELECT * FROM " + TABLE_EMPLOYEES + " WHERE " + COLUMN_EMPLOYEES_ID + " =?";
+    // Is not allowed to use the wild card (?) of prepared statements as a placeholder of table names. Table names must be hardcoded.
+    // So we have to use a variable for the table name and create the string of the simpleStatement inside the method we want it.
+    private static final String QUERY_CREATE_WORKDAYS_TABLE_1 = "CREATE TABLE IF NOT EXISTS " + dbName + "." + TABLE_WORKDAYS;
+    private static final String QUERY_CREATE_WORKDAYS_TABLE_2 = " (" +
+            COLUMN_WORKDAYS_WORKDAY_ID + " INT NOT NULL AUTO_INCREMENT, " +
             COLUMN_WORKDAYS_DATE + " DATE NULL, " +
             COLUMN_WORKDAYS_CHECK_IN + " TIMESTAMP NULL, " +
             COLUMN_WORKDAYS_CHECK_OUT + " TIMESTAMP NULL, " +
@@ -55,10 +74,17 @@ public class DatabaseHandler {
             COLUMN_WORKDAYS_OVERTIME + " INT NULL, " +
             "PRIMARY KEY (" + COLUMN_WORKDAYS_WORKDAY_ID + ")" +
             ")";
+    public static final String QUERY_INSERT_INTO_WORKDAYS_TABLE_1 = "INSERT INTO " + TABLE_WORKDAYS;
+    public static final String QUERY_INSERT_INTO_WORKDAYS_TABLE_2 = " (" ;
+            ;
+
 
     private Connection conn;
+    //Prepared simpleStatement to INSERT, UPDATE and DELETE
     private PreparedStatement preparedStatement;
-
+    // Simple simpleStatement to CREATE tables as the preparedStatement's wildcard can not be
+    // used as a placeholder for table names
+    private Statement simpleStatement;
 
 
     public boolean openDbConnection(int querySelection) {
@@ -67,10 +93,10 @@ public class DatabaseHandler {
             conn = DriverManager.getConnection(url, user, password);
             switch (querySelection) {
                 case FOR_LOG_IN:
-                    preparedStatement = conn.prepareStatement(QUERY_USER_AUTHENTICATION);
+                    preparedStatement = conn.prepareStatement(QUERY_GET_EMPLOYEE_DETAILS);
                     break;
                 case FOR_CHECK_IN_OUT:
-                    preparedStatement = conn.prepareStatement(QUERY_USER_CHECK_IN_OUT);
+                    simpleStatement = conn.createStatement();
                     break;
             }
             System.out.println("\nConnection SUCCESSFUL\n");
@@ -92,6 +118,9 @@ public class DatabaseHandler {
             if(preparedStatement != null) {
                 preparedStatement.close();
             }
+            if(simpleStatement != null) {
+                simpleStatement.close();
+            }
             if (conn != null) {
                 conn.close();
 //                System.out.println("\nConnection CLOSED OK!\n");
@@ -103,14 +132,24 @@ public class DatabaseHandler {
     }
 
 
-    // Used to log in a user
-    public boolean userAuthentication(String employeeID, String password){
+    // Used to log in a user and get its information
+    public boolean userAuthentication(String employeeID, String password, Employee employee){
         try {
-            // Replacing the first occurrence of the prepared statement's wildcard with the employeeID
             preparedStatement.setString(1, employeeID);
             ResultSet result = preparedStatement.executeQuery();
             while (result.next()) {
-                if(password.equals(result.getString(1))){
+                if(password.equals(result.getString(3))){
+                    // Setting up the employee object with all his info
+                    employee.setId(result.getString(1));
+                    employee.setEmail(result.getString(2));
+                    employee.setPassword(result.getString(3));
+                    employee.setName(result.getString(4));
+                    employee.setLast_name(result.getString(5));
+                    employee.setSalary(result.getInt(6));
+                    employee.setSalary_type(result.getString(7));
+                    employee.setStandard_shift(result.getInt(8));
+                    employee.setHolidays_left(result.getInt(9));
+                    employee.setHolidays_bonus(result.getInt(10));
                     return true;
                 }
             }
@@ -122,8 +161,19 @@ public class DatabaseHandler {
     }
 
 
+    // As this method is used with the check in-out button, first we create a table for the user if does not exist,
+    // and we insert date and timestamp data.
     public boolean checkInOut(String username){
-        return true;
+        try {
+            // executeUpdate() method, executes the given SQL simpleStatement which may be an INSERT, UPDATE, or DELETE simpleStatement or an SQL simpleStatement that returns nothing, such as an SQL DDL simpleStatement.
+            // https://stackoverflow.com/questions/1905607/cannot-issue-data-manipulation-statements-with-executequery
+            simpleStatement.executeUpdate(QUERY_CREATE_WORKDAYS_TABLE_1 + username + QUERY_CREATE_WORKDAYS_TABLE_2);
+
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
