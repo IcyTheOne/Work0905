@@ -100,8 +100,8 @@ public class DatabaseHandler {
     public static final String QUERY_INSERT_INTO_WORKDAYS_TABLE_1 = "INSERT INTO " + TABLE_WORKDAYS;
     public static final String QUERY_INSERT_INTO_WORKDAYS_TABLE_2 = " (" ;
             ;
-    public static final String QUERY_UPDATE_EMAIL = "UPDATE " + TABLE_EMPLOYEES + " SET email =? WHERE id_employee=?";
-    public static final String QUERY_UPDATE_PASSWORD = "UPDATE " + TABLE_EMPLOYEES + " SET password =? WHERE id_employee=?";
+    public static final String QUERY_UPDATE_EMAIL = "UPDATE " + TABLE_EMPLOYEES + " SET " + COLUMN_EMPLOYEES_EMAIL + " =? WHERE " + COLUMN_EMPLOYEES_ID + " =?";
+    public static final String QUERY_UPDATE_PASSWORD = "UPDATE " + TABLE_EMPLOYEES + " SET " + COLUMN_EMPLOYEES_PASSWORD + " =? WHERE " + COLUMN_EMPLOYEES_ID + " =?";
 
     private Connection conn;
     //Prepared simpleStatement to INSERT, UPDATE and DELETE
@@ -135,8 +135,10 @@ public class DatabaseHandler {
                     break;
                 case FOR_UPDATE_EMAIL:
                     preparedStatement = conn.prepareStatement(QUERY_UPDATE_EMAIL);
+                    break;
                 case FOR_UPDATE_PASSWORD:
                     preparedStatement = conn.prepareStatement(QUERY_UPDATE_PASSWORD);
+                    break;
             }
             System.out.println("\nConnection SUCCESSFUL\n");
             return true;
@@ -260,9 +262,9 @@ public class DatabaseHandler {
         }
         return false;
     }
-    public boolean changeEmail(String Email,String employeeID){
+    public boolean changeEmail(String email, String employeeID){
         try {
-            preparedStatement.setString(1,Email);
+            preparedStatement.setString(1,email);
             preparedStatement.setString(2, employeeID);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

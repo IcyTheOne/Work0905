@@ -19,7 +19,7 @@ import java.lang.ref.WeakReference;
 
 public class ChangeEmail extends AppCompatActivity {
 
-    public static final String TAG = "ChangeEmail: ";
+    public static final String TAG = "ChangeEmail";
 
     ImageButton backBtn;
     ImageButton saveChangesBtn;
@@ -95,9 +95,8 @@ public class ChangeEmail extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            if(db.openDbConnection(DatabaseHandler.FOR_UPDATE_EMAIL) &&
-                    db.changeEmail(strings[0], this.employee.getId())){
-                Log.d(TAG, "doInBackground: " + employee.getId());
+            if(db.openDbConnection(DatabaseHandler.FOR_UPDATE_EMAIL) && db.changeEmail(strings[0], this.employee.getId())){
+                Log.d(TAG, "doInBackground: " + this.employee.getId() + " : " + strings[0]);
                 return true;
             }
             return false;
