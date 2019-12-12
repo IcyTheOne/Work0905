@@ -100,8 +100,8 @@ public class DatabaseHandler {
     public static final String QUERY_INSERT_INTO_WORKDAYS_TABLE_1 = "INSERT INTO " + TABLE_WORKDAYS;
     public static final String QUERY_INSERT_INTO_WORKDAYS_TABLE_2 = " (" ;
             ;
-    public static final String QUERY_UPDATE_EMAIL = "UPDATE email FROM " + TABLE_EMPLOYEES + " WHERE " + " id_employee=?";
-    public static final String QUERY_UPDATE_PASSWORD = "UPDATE password FROM " + TABLE_EMPLOYEES + " WHERE " + " id_employee=?";
+    public static final String QUERY_UPDATE_EMAIL = "UPDATE " + TABLE_EMPLOYEES + " SET email =? WHERE id_employee=?";
+    public static final String QUERY_UPDATE_PASSWORD = "UPDATE " + TABLE_EMPLOYEES + " SET password =? WHERE id_employee=?";
 
     private Connection conn;
     //Prepared simpleStatement to INSERT, UPDATE and DELETE
@@ -260,5 +260,18 @@ public class DatabaseHandler {
         }
         return false;
     }
+    public boolean changeEmail(String Email,String employeeID){
+        try {
+            preparedStatement.setString(1,Email);
+            preparedStatement.setString(2, employeeID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return true;
+    }
 
 }
+

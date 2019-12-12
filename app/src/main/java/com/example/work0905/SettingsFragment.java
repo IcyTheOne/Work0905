@@ -31,6 +31,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ChangeEmail.class);
+                intent.putExtra("Employee", NavigationBar.employee);
                 startActivity(intent);
             }
         });
