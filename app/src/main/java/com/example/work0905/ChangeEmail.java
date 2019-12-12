@@ -1,9 +1,9 @@
 package com.example.work0905;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,10 +19,11 @@ import java.lang.ref.WeakReference;
 
 public class ChangeEmail extends AppCompatActivity {
 
+    public static final String TAG = "ChangeEmail: ";
+
     ImageButton backBtn;
     ImageButton saveChangesBtn;
-    EditText mEdit = findViewById(R.id.repeat_email_ET);
-    EditText mEdit2 = findViewById(R.id.new_email_et);
+    EditText mEdit, mEdit2;
 
     Employee employee;
 
@@ -31,6 +32,9 @@ public class ChangeEmail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_email);
+
+        mEdit = findViewById(R.id.new_email_et);
+        mEdit2 = findViewById(R.id.repeat_email_ET);
 
         employee = (Employee) getIntent().getSerializableExtra("Employee");
 
@@ -50,9 +54,11 @@ public class ChangeEmail extends AppCompatActivity {
         saveChangesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mEdit2.getText().toString().trim().equals(mEdit.getText().toString().trim())){
+                String mEdit2Text = mEdit2.getText().toString().trim();
+                String mEditText = mEdit.getText().toString().trim();
+                if(mEdit2Text.equals(mEditText)){
                     ChangeEmailTask changeEmailTask = new ChangeEmailTask(ChangeEmail.this);
-                    changeEmailTask.execute(mEdit2.toString().trim());
+                    changeEmailTask.execute(mEdit2Text);
                 }else{
                     Toast.makeText(ChangeEmail.this,"E-mails not matching",Toast.LENGTH_LONG).show();
                 }
@@ -89,7 +95,9 @@ public class ChangeEmail extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            if(db.openDbConnection(DatabaseHandler.FOR_UPDATE_EMAIL) && db.changeEmail(strings[0], this.employee.getId())){
+            if(db.openDbConnection(DatabaseHandler.FOR_UPDATE_EMAIL) &&
+                    db.changeEmail(strings[0], this.employee.getId())){
+                Log.d(TAG, "doInBackground: " + employee.getId());
                 return true;
             }
             return false;
@@ -104,8 +112,6 @@ public class ChangeEmail extends AppCompatActivity {
             if(activity == null || activity.isFinishing()) {
                 return;
             }
-
-
             if(result){
                 Toast.makeText(activity.getApplicationContext(),"Updating email successful",Toast.LENGTH_LONG).show();
             }else Toast.makeText(activity.getApplicationContext(),"Updating email unsuccessful",Toast.LENGTH_LONG).show();
