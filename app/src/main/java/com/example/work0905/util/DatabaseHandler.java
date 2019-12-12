@@ -21,6 +21,8 @@ public class DatabaseHandler {
     // connection with database (openDbConnection method).
     public static final int FOR_LOG_IN = 1;
     public static final int FOR_CHECK_IN_OUT = 2;
+    public static final int FOR_UPDATE_EMAIL = 3;
+    public static final int FOR_UPDATE_PASSWORD = 4;
 
     /**
      * Database tables and columns
@@ -95,6 +97,11 @@ public class DatabaseHandler {
     public static final String QUERY_GET_CHECK_OUT_STATUS_VALUE_2 = " WHERE " + COLUMN_WORKDAYS_WORKDAY_ID + " = " + "(SELECT MAX(" + COLUMN_WORKDAYS_WORKDAY_ID + ")" + " FROM " + TABLE_WORKDAYS;
     public static final String QUERY_GET_CHECK_OUT_STATUS_VALUE_3 = ")";
 
+    public static final String QUERY_INSERT_INTO_WORKDAYS_TABLE_1 = "INSERT INTO " + TABLE_WORKDAYS;
+    public static final String QUERY_INSERT_INTO_WORKDAYS_TABLE_2 = " (" ;
+            ;
+    public static final String QUERY_UPDATE_EMAIL = "UPDATE email FROM " + TABLE_EMPLOYEES + " WHERE " + " id_employee=?";
+    public static final String QUERY_UPDATE_PASSWORD = "UPDATE password FROM " + TABLE_EMPLOYEES + " WHERE " + " id_employee=?";
 
     private Connection conn;
     //Prepared simpleStatement to INSERT, UPDATE and DELETE
@@ -126,6 +133,10 @@ public class DatabaseHandler {
                 case FOR_CHECK_IN_OUT:
                     simpleStatement = conn.createStatement();
                     break;
+                case FOR_UPDATE_EMAIL:
+                    preparedStatement = conn.prepareStatement(QUERY_UPDATE_EMAIL);
+                case FOR_UPDATE_PASSWORD:
+                    preparedStatement = conn.prepareStatement(QUERY_UPDATE_PASSWORD);
             }
             System.out.println("\nConnection SUCCESSFUL\n");
             return true;
