@@ -22,13 +22,7 @@ public class NavigationBar extends AppCompatActivity {
     private static final String TAG = "NavigationBar";
 
     public SharedPreferences sharedPreferences;
-    public Employee employee;
-
-    // User info that can be accessed by the fragments attached on this activity
-    public static final String PREF_NAME = "prefs";
-    public static final String KEY_USERNAME = "username";
-    public static final String KEY_PASSWORD = "password";
-    public static String username;
+    public static Employee employee;
 
 
     @Override
@@ -36,11 +30,8 @@ public class NavigationBar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_bar);
 
+        // This employee object can be fetched from all fragments hosted in this activity
         employee = (Employee) getIntent().getSerializableExtra("Employee");
-        Log.i(TAG, "User employee: " + employee.getEmail());
-
-        sharedPreferences = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        username = sharedPreferences.getString(KEY_USERNAME,"");
 
         FragmentManager fm = getSupportFragmentManager();
         final Fragment fragment = fm.findFragmentById(R.id.fragment_container);

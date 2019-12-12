@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,21 +19,35 @@ import java.lang.ref.WeakReference;
 
 public class HomeFragment extends Fragment {
 
-    private ImageButton checkInOut;
+    private ImageButton checkInOutBtn;
+    private TextView emailTv;
     private String username;
+    private CheckEmployeeStatusTask employeeStatus;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        username = NavigationBar.username;
+        username = NavigationBar.employee.getId();
 
-        checkInOut = view.findViewById(R.id.checkInOut_imb);
-        checkInOut.setOnClickListener(new View.OnClickListener() {
+        checkInOutBtn = view.findViewById(R.id.checkInOut_imb);
+        emailTv = view.findViewById(R.id.email_content);
+
+        if(NavigationBar.employee.isCheckedOut()){
+            checkInOutBtn.setBackgroundResource(R.drawable.check_in_btn);
+        } else {
+            checkInOutBtn.setBackgroundResource(R.drawable.check_out_btn);
+        }
+
+//        employeeStatus = new CheckEmployeeStatusTask(HomeFragment.this);
+//        employeeStatus.execute();
+
+        emailTv.setText(NavigationBar.employee.getEmail());
+
+        checkInOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CheckInOutTask checkInOutTask = new CheckInOutTask(HomeFragment.this);
                 checkInOutTask.execute();
-                System.out.println("\n\n" + username + "\n\n");
             }
         });
         return view;
@@ -40,50 +55,29 @@ public class HomeFragment extends Fragment {
 
 
     /**
-     * AsyncTask for handling the connection to the database and login of the user.
+     * AsyncTask for handling the connection to the database and insert check in and check out timestamps in the database.
      * Used to avoid the networking error thrown by the UI thread.
-     * (UI thread is not able to handle network operations and such assignment has to handed in a separate task-thread)
+     * (UI thread is not able to handle network operations and such assignment has to be handed in a separate task-thread)
      **/
-    private static class CheckInOutTask extends AsyncTask<Void, Void, Boolean> {
 
-        private DatabaseHandler dbHandler = new DatabaseHandler();
-        private String uname;
+    // Used on the creation of the view to check if employee has already checked in and set up the UI content and the functionality of the check in-out button.
+    private static class CheckEmployeeStatusTask extends AsyncTask<Void, Void, Boolean> {
 
         private WeakReference<HomeFragment> fragmentWeakReference;
+        private DatabaseHandler dbHandler;
+        private String username;
 
-        // Our AsyncTask constructor
-        CheckInOutTask(HomeFragment fragment) {
+        CheckEmployeeStatusTask(HomeFragment fragment){
+            this.username = fragment.username;
+            dbHandler = new DatabaseHandler();
             fragmentWeakReference = new WeakReference<>(fragment);
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Checking if activity still exists before make any changes in it's UI thread.
-            // If does not exist or is going to get destroyed, there is no point to update any of its Views.
-            /*
-            Note that our Activity can be gone while doInBackground() is in progress
-            (so the reference returned can become null), but by using WeakReference we do not
-            prevent Garbage Collector from collecting it (and leaking memory) and as Activity
-            is gone, it's usually pointless to even try to update its state (still, depending
-            on your logic you may want to do something like changing internal state or update DB,
-            but touching UI must be skipped).
-            */
-            HomeFragment fragment = fragmentWeakReference.get();
-            if(fragment == null || fragment.isRemoving()) {
-                return;
-            }
-            uname = fragment.username;
-        }
-
-        @Override
         protected Boolean doInBackground(Void... voids) {
-            if(dbHandler.openDbConnection(DatabaseHandler.FOR_CHECK_IN_OUT) && dbHandler.checkInOut(uname)){
-                dbHandler.closeDbConnection();
-                // Connection to db successful
-                return true;
+            if(dbHandler.openDbConnection(DatabaseHandler.FOR_CHECK_IN_OUT)){
+                return dbHandler.isCheckedOut(this.username);
             }
-            dbHandler.closeDbConnection();
             // Connection to db unsuccessful
             return false;
         }
@@ -92,6 +86,67 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
 
+            dbHandler.closeDbConnection();
+
+            HomeFragment fragment = fragmentWeakReference.get();
+            if(fragment == null || fragment.isRemoving()) {
+                return;
+            }
+
+            if(result) {
+                fragment.checkInOutBtn.setBackgroundResource(R.drawable.check_in_btn);
+                NavigationBar.employee.setCheckedOut(true);
+//                fragment.checkedOut = true;
+            } else {
+                fragment.checkInOutBtn.setBackgroundResource(R.drawable.check_out_btn);
+                NavigationBar.employee.setCheckedOut(false);
+//                fragment.checkedOut = false;
+            }
+        }
+    }
+
+    // *********************************************************************************************
+
+    private static class CheckInOutTask extends AsyncTask<Void, Void, Boolean> {
+
+        private DatabaseHandler dbHandler;
+        private String username;
+        private boolean checkedOut;
+
+        private WeakReference<HomeFragment> fragmentWeakReference;
+
+        // Our AsyncTask constructor
+        CheckInOutTask(HomeFragment fragment) {
+            this.username = fragment.username;
+//            this.checkedOut = fragment.checkedOut;
+            this.checkedOut = NavigationBar.employee.isCheckedOut();
+            dbHandler = new DatabaseHandler();
+            fragmentWeakReference = new WeakReference<>(fragment);
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            if(dbHandler.openDbConnection(DatabaseHandler.FOR_CHECK_IN_OUT)){
+                if(this.checkedOut) {
+                    // Employee is checked out so we check him in (inserting new db row)
+                    return dbHandler.checkIn(username);
+                } else {
+                    // Employee is only checked in so we check him out for the day (updating the last db row)
+                    return dbHandler.checkOut(username);
+                }
+            }
+            // Connection to db unsuccessful
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            // Closing db after all operations
+            dbHandler.closeDbConnection();
+
             HomeFragment fragment = fragmentWeakReference.get();
             if(fragment == null || fragment.isRemoving()) {
                 return;
@@ -99,14 +154,24 @@ public class HomeFragment extends Fragment {
 
 
             if(result){
-                Toast.makeText(fragment.getContext(), "User CheckInOut Successful!", Toast.LENGTH_LONG).show();
-                System.out.println("User CheckInOut Successful! : " + uname);
+                if(checkedOut) {
+                    // After we did the check in we set the button for check out
+                    fragment.checkInOutBtn.setBackgroundResource(R.drawable.check_out_btn);
+                    NavigationBar.employee.setCheckedOut(false);
+//                    fragment.checkedOut = false;
+                    Toast.makeText(fragment.getContext(), "User Checked In!", Toast.LENGTH_SHORT).show();
+                } else {
+                    // After we did the check out we set the button for check in
+                    fragment.checkInOutBtn.setBackgroundResource(R.drawable.check_in_btn);
+                    NavigationBar.employee.setCheckedOut(true);
+//                    fragment.checkedOut = true;
+                    Toast.makeText(fragment.getContext(), "User Checked Out!", Toast.LENGTH_SHORT).show();
+                }
+                System.out.println("User CheckInOut Successful! : " + username);
             } else {
-                System.out.println("User CheckInOut Unsuccessful! : " + uname);
+                System.out.println("Connection problem : " + username);
 
             }
         }
-
-
     }
 }

@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
      **/
     private static class LogInTask extends AsyncTask<String, Void, Boolean> {
 
-        private DatabaseHandler dbHandler = new DatabaseHandler();
+        private DatabaseHandler dbHandler;
         private String uname;
         private Employee employee;
 
@@ -154,18 +154,17 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
             // Making a STRONG reference to MainActivity's progressBar View element
             activity.progressBar.setVisibility(View.VISIBLE);
             employee = activity.employee;
+            dbHandler = new DatabaseHandler();
         }
 
         @Override
         protected Boolean doInBackground(String... strings) {
             if(dbHandler.openDbConnection(DatabaseHandler.FOR_LOG_IN) &&
                     dbHandler.userAuthentication(strings[0], strings[1], employee)){
-                dbHandler.closeDbConnection();
                 uname = strings[0];
                 // Connection to db successful
                 return true;
             }
-            dbHandler.closeDbConnection();
             // Connection to db unsuccessful
             return false;
         }
@@ -173,6 +172,9 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+
+            // Closing db after all operations
+            dbHandler.closeDbConnection();
 
             MainActivity activity = activityWeakReference.get();
             if(activity == null || activity.isFinishing()) {

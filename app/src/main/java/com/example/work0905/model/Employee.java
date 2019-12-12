@@ -15,6 +15,18 @@ public class Employee implements Serializable {
     private int holidays_left;
     private int holidays_bonus;
     private String rfid;
+    private boolean checkedOut;
+
+
+
+
+    public boolean isCheckedOut() {
+        return checkedOut;
+    }
+
+    public void setCheckedOut(boolean checkedOut) {
+        this.checkedOut = checkedOut;
+    }
 
     public String getId() {
         return id;
