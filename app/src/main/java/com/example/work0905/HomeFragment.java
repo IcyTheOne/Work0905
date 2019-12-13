@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
             if(dbHandler.openDbConnection(DatabaseHandler.FOR_CHECK_IN_OUT)){
                 return dbHandler.isCheckedOut(this.username);
             }
-            // Connection to db unsuccessful
+            // Connection to dbHandler unsuccessful
             return false;
         }
 
@@ -129,14 +129,14 @@ public class HomeFragment extends Fragment {
         protected Boolean doInBackground(Void... voids) {
             if(dbHandler.openDbConnection(DatabaseHandler.FOR_CHECK_IN_OUT)){
                 if(this.checkedOut) {
-                    // Employee is checked out so we check him in (inserting new db row)
+                    // Employee is checked out so we check him in (inserting new dbHandler row)
                     return dbHandler.checkIn(username);
                 } else {
-                    // Employee is only checked in so we check him out for the day (updating the last db row)
+                    // Employee is only checked in so we check him out for the day (updating the last dbHandler row)
                     return dbHandler.checkOut(username);
                 }
             }
-            // Connection to db unsuccessful
+            // Connection to dbHandler unsuccessful
             return false;
         }
 
@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
 
-            // Closing db after all operations
+            // Closing dbHandler after all operations
             dbHandler.closeDbConnection();
 
             HomeFragment fragment = fragmentWeakReference.get();

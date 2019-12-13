@@ -1,6 +1,4 @@
 package com.example.work0905;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +8,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.work0905.model.Employee;
 import com.example.work0905.util.DatabaseHandler;
@@ -71,14 +68,16 @@ public class ChangeEmail extends AppCompatActivity {
     }
 
     static class ChangeEmailTask extends AsyncTask<String, Void, Boolean> {
+
         private WeakReference<ChangeEmail> activityWeakReference;
-        Employee employee;
-        DatabaseHandler db;
+        private Employee employee;
+        private DatabaseHandler dbHandler;
 
 
+        // Constructor
         ChangeEmailTask(ChangeEmail activity){
             activityWeakReference = new WeakReference<ChangeEmail>(activity);
-            db = new DatabaseHandler();
+            dbHandler = new DatabaseHandler();
         }
 
         @Override
@@ -95,7 +94,7 @@ public class ChangeEmail extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            if(db.openDbConnection(DatabaseHandler.FOR_UPDATE_EMAIL) && db.changeEmail(strings[0], this.employee.getId())){
+            if(dbHandler.openDbConnection(DatabaseHandler.FOR_UPDATE_EMAIL) && dbHandler.changeEmail(strings[0], this.employee.getId())){
                 Log.d(TAG, "doInBackground: " + this.employee.getId() + " : " + strings[0]);
                 return true;
             }
@@ -107,6 +106,10 @@ public class ChangeEmail extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
+
+            // Always closing the database connection after any operation!
+            dbHandler.closeDbConnection();
+
             ChangeEmail activity = activityWeakReference.get();
             if(activity == null || activity.isFinishing()) {
                 return;

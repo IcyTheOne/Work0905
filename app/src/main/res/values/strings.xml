@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Work0905</string>
+    <string name="app_name">WorkLogger</string>
 
     <!-- |Login Page| -->
     <string name="username_ET">Username:</string>

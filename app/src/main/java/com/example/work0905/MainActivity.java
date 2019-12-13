@@ -162,10 +162,10 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
             if(dbHandler.openDbConnection(DatabaseHandler.FOR_LOG_IN) &&
                     dbHandler.userAuthentication(strings[0], strings[1], employee)){
                 uname = strings[0];
-                // Connection to db successful
+                // Connection to dbHandler successful
                 return true;
             }
-            // Connection to db unsuccessful
+            // Connection to dbHandler unsuccessful
             return false;
         }
 
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
 
-            // Closing db after all operations
+            // Closing dbHandler after all operations
             dbHandler.closeDbConnection();
 
             MainActivity activity = activityWeakReference.get();
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements TextWatcher, Comp
                 activity.startActivity(intent);
             } else {
                 activity.error_message.setTextColor(Color.RED);
-                activity.error_message.setText("# Something went wrong!\nPlease try again");
+                activity.error_message.setText(" Something went wrong!\nPlease try again");
                 activity.error_message.setVisibility(View.VISIBLE);
             }
         }

@@ -12,10 +12,10 @@ import java.sql.Statement;
 public class DatabaseHandler {
 
     // Database credentials
-    private static final String dbName = "work0905db";
-    private static final String user = "work0905db";
+    private static final String dbName = "project03db";
+    private static final String user = "project03db";
     private static final String url = "jdbc:mysql://den1.mysql6.gear.host:3306/" + dbName;
-    private static final String password = "Oa4fXkQ?6S9!";
+    private static final String password = "Ke0O!Yy!60d5";
 
     // CONSTANTS used to insert the correct QUERY to the PREPARED simpleStatement, when we open
     // connection with database (openDbConnection method).
@@ -96,9 +96,6 @@ public class DatabaseHandler {
     public static final String QUERY_GET_CHECK_OUT_STATUS_VALUE_1 = "SELECT " + COLUMN_WORKDAYS_IS_CHECKED_OUT + " FROM " + TABLE_WORKDAYS;
     public static final String QUERY_GET_CHECK_OUT_STATUS_VALUE_2 = " WHERE " + COLUMN_WORKDAYS_WORKDAY_ID + " = " + "(SELECT MAX(" + COLUMN_WORKDAYS_WORKDAY_ID + ")" + " FROM " + TABLE_WORKDAYS;
     public static final String QUERY_GET_CHECK_OUT_STATUS_VALUE_3 = ")";
-
-    public static final String QUERY_INSERT_INTO_WORKDAYS_TABLE_1 = "INSERT INTO " + TABLE_WORKDAYS;
-    public static final String QUERY_INSERT_INTO_WORKDAYS_TABLE_2 = " (" ;
             ;
     public static final String QUERY_UPDATE_EMAIL = "UPDATE " + TABLE_EMPLOYEES + " SET " + COLUMN_EMPLOYEES_EMAIL + " =? WHERE " + COLUMN_EMPLOYEES_ID + " =?";
     public static final String QUERY_UPDATE_PASSWORD = "UPDATE " + TABLE_EMPLOYEES + " SET " + COLUMN_EMPLOYEES_PASSWORD + " =? WHERE " + COLUMN_EMPLOYEES_ID + " =?";
