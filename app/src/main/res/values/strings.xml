@@ -18,6 +18,7 @@
     <string name="repeat_pass">Repeat Password:</string>
 
     <!-- |Stats Page| -->
+    <string name="employee_name">Employee:</string>
     <string name="total_hours">Total Hours Worked:</string>
     <string name="overtime_hours">Hours of Overtime:</string>
     <string name="estimated_salary">Estimated Salary:</string>

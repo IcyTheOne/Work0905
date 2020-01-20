@@ -1,4 +1,4 @@
-package com.example.work0905;
+package com.example.work0905.model;
 
 public class LoggedMonths {
     private String month;

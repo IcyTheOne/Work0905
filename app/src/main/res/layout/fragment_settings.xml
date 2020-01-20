@@ -29,6 +29,7 @@
         app:layout_constraintVertical_bias=".25"
         app:layout_constraintHorizontal_bias=".1"
         android:textSize="20sp"
+        android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/employee_id_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

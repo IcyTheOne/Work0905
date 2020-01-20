@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +19,9 @@ public class SettingsFragment extends Fragment {
         ImageButton passChange = view.findViewById(R.id.change_password);
         ImageButton emailChange = view.findViewById(R.id.change_email);
         ImageButton logoutBtn = view.findViewById(R.id.logout);
+        TextView employeeId = view.findViewById(R.id.employee_id_empty);
+
+        employeeId.setText(NavigationBar.employee.getId());
 
         passChange.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.work0905.model.Employee;
 import com.example.work0905.util.DatabaseHandler;
 
 import java.lang.ref.WeakReference;
@@ -75,7 +76,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            if(dbHandler.openDbConnection(DatabaseHandler.FOR_CHECK_IN_OUT)){
+            if(dbHandler.openDbConnection(DatabaseHandler.FOR_SIMPLE_STATEMENT)){
                 return dbHandler.isCheckedOut(this.username);
             }
             // Connection to dbHandler unsuccessful
@@ -112,28 +113,29 @@ public class HomeFragment extends Fragment {
         private DatabaseHandler dbHandler;
         private String username;
         private boolean checkedOut;
+        private Employee employee;
 
         private WeakReference<HomeFragment> fragmentWeakReference;
 
         // Our AsyncTask constructor
         CheckInOutTask(HomeFragment fragment) {
             this.username = fragment.username;
-//            this.checkedOut = fragment.checkedOut;
             this.checkedOut = NavigationBar.employee.isCheckedOut();
-            dbHandler = new DatabaseHandler();
+            this.employee = NavigationBar.employee;
+            this.dbHandler = new DatabaseHandler();
             fragmentWeakReference = new WeakReference<>(fragment);
         }
 
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            if(dbHandler.openDbConnection(DatabaseHandler.FOR_CHECK_IN_OUT)){
+            if(dbHandler.openDbConnection(DatabaseHandler.FOR_SIMPLE_STATEMENT)){
                 if(this.checkedOut) {
                     // Employee is checked out so we check him in (inserting new dbHandler row)
                     return dbHandler.checkIn(username);
                 } else {
                     // Employee is only checked in so we check him out for the day (updating the last dbHandler row)
-                    return dbHandler.checkOut(username);
+                    return dbHandler.checkOut(this.employee);
                 }
             }
             // Connection to dbHandler unsuccessful

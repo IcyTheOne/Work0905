@@ -10,10 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.w3c.dom.Text;
+import com.example.work0905.model.LoggedMonths;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LoggedMonthsAdapter extends ArrayAdapter<LoggedMonths> {
 

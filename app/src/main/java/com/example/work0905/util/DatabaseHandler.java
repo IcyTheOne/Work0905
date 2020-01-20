@@ -1,5 +1,7 @@
 package com.example.work0905.util;
 
+import android.util.Log;
+
 import com.example.work0905.model.Employee;
 
 import java.sql.Connection;
@@ -11,6 +13,8 @@ import java.sql.Statement;
 
 public class DatabaseHandler {
 
+    private static final String TAG = "DatabaseHandler class";
+
     // Database credentials
     private static final String dbName = "project03db";
     private static final String user = "project03db";
@@ -20,7 +24,7 @@ public class DatabaseHandler {
     // CONSTANTS used to insert the correct QUERY to the PREPARED simpleStatement, when we open
     // connection with database (openDbConnection method).
     public static final int FOR_LOG_IN = 1;
-    public static final int FOR_CHECK_IN_OUT = 2;
+    public static final int FOR_SIMPLE_STATEMENT = 2;
     public static final int FOR_UPDATE_EMAIL = 3;
     public static final int FOR_UPDATE_PASSWORD = 4;
 
@@ -69,6 +73,8 @@ public class DatabaseHandler {
             COLUMN_WORKDAYS_OVERTIME + " INT NULL, " +
             "PRIMARY KEY (" + COLUMN_WORKDAYS_WORKDAY_ID + ")" +
             ")";
+
+    // Creating a new row
     public static final String QUERY_INSERT_CHECK_IN_INTO_WORKDAYS_TABLE_1 = "INSERT INTO " + TABLE_WORKDAYS;
     public static final String QUERY_INSERT_CHECK_IN_INTO_WORKDAYS_TABLE_2 = " (" +
             COLUMN_WORKDAYS_DATE + ", " +
@@ -83,13 +89,30 @@ public class DatabaseHandler {
             "NULL, " +
             "false, " + // false is equal to 0, and true is equal to 1
             "NULL, NULL )";
+
+    public static final String QUERY_GET_MAX_ID_WORKDAY_KEY = "SELECT MAX(" + COLUMN_WORKDAYS_WORKDAY_ID + ")" + " FROM " + TABLE_WORKDAYS;
+
     public static final String QUERY_UPDATE_CHECK_OUT_INTO_WORKDAYS_TABLE_1 = "UPDATE " + TABLE_WORKDAYS;
     public static final String QUERY_UPDATE_CHECK_OUT_INTO_WORKDAYS_TABLE_2 = " SET " + COLUMN_WORKDAYS_CHECK_OUT + " = NOW() WHERE " + COLUMN_WORKDAYS_WORKDAY_ID + " = ";
 
     public static final String QUERY_UPDATE_CHECK_OUT_STATUS_INTO_WORKDAYS_TABLE_1 = "UPDATE " + TABLE_WORKDAYS;
     public static final String QUERY_UPDATE_CHECK_OUT_STATUS_INTO_WORKDAYS_TABLE_2 = " SET " + COLUMN_WORKDAYS_IS_CHECKED_OUT + " = TRUE WHERE " + COLUMN_WORKDAYS_WORKDAY_ID + " = ";
 
-    public static final String QUERY_GET_LAST_ROW_PRIMARY_KEY_1 = "SELECT MAX(" + COLUMN_WORKDAYS_WORKDAY_ID + ")" + " FROM " + TABLE_WORKDAYS;
+    public static final String QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_1_1 = "SET @max_id_workday = (" + QUERY_GET_MAX_ID_WORKDAY_KEY;
+    public static final String QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_1_2 = ")";
+    public static final String QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_2_1 = "SET @min_worked = time_to_sec(timediff((SELECT " + COLUMN_WORKDAYS_CHECK_OUT + " FROM " + TABLE_WORKDAYS;
+    public static final String QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_2_2 = " WHERE " + COLUMN_WORKDAYS_WORKDAY_ID + " = (SELECT @max_id_workday)), (SELECT " + COLUMN_WORKDAYS_CHECK_IN + " FROM " + TABLE_WORKDAYS;
+    public static final String QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_2_3 = " WHERE " + COLUMN_WORKDAYS_WORKDAY_ID + " = (SELECT @max_id_workday)))) / 60";
+    public static final String QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_3_1 = "UPDATE " + TABLE_WORKDAYS;
+    public static final String QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_3_2 = " SET " + COLUMN_WORKDAYS_MINUTES_WORKED + " = (SELECT @min_worked) WHERE " + COLUMN_WORKDAYS_WORKDAY_ID + " = (SELECT @max_id_workday)";
+
+    public static final String QUERY_GET_MINUTES_WORKED_FROM_WORKDAYS_TABLE_1 = "SELECT " + COLUMN_WORKDAYS_MINUTES_WORKED + " FROM " + TABLE_WORKDAYS;
+    public static final String QUERY_GET_MINUTES_WORKED_FROM_WORKDAYS_TABLE_2 = " WHERE " + COLUMN_WORKDAYS_WORKDAY_ID + " = (" + QUERY_GET_MAX_ID_WORKDAY_KEY;
+    public static final String QUERY_GET_MINUTES_WORKED_FROM_WORKDAYS_TABLE_3 = ")";
+
+    public static final String QUERY_UPDATE_OVERTIME_INTO_WORKDAYS_TABLE_1 = "UPDATE " + TABLE_WORKDAYS;
+    public static final String QUERY_UPDATE_OVERTIME_INTO_WORKDAYS_TABLE_2 = " SET " + COLUMN_WORKDAYS_OVERTIME + " = ";
+    public static final String QUERY_UPDATE_OVERTIME_INTO_WORKDAYS_TABLE_3 = " WHERE " + COLUMN_WORKDAYS_WORKDAY_ID + " = ";
 
     // Get CHECK_IN value to check if the employee has hit or not the check in button, and act correspondingly.
     // This query will always select the last row in the database
@@ -111,7 +134,7 @@ public class DatabaseHandler {
 
 
 
-    /*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+    /*/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 
 
 
@@ -127,7 +150,7 @@ public class DatabaseHandler {
                     preparedStatement = conn.prepareStatement(QUERY_GET_EMPLOYEE_DETAILS);
                     simpleStatement = conn.createStatement();
                     break;
-                case FOR_CHECK_IN_OUT:
+                case FOR_SIMPLE_STATEMENT:
                     simpleStatement = conn.createStatement();
                     break;
                 case FOR_UPDATE_EMAIL:
@@ -185,7 +208,7 @@ public class DatabaseHandler {
                     employee.setLast_name(result.getString(5));
                     employee.setSalary(result.getInt(6));
                     employee.setSalary_type(result.getString(7));
-                    employee.setStandard_shift(result.getInt(8));
+                    employee.setStandard_shift_hours(result.getInt(8));
                     employee.setHolidays_left(result.getInt(9));
                     employee.setHolidays_bonus(result.getInt(10));
                     employee.setCheckedOut(isCheckedOut(employeeID));
@@ -206,9 +229,15 @@ public class DatabaseHandler {
         try {
             // executeUpdate() method, executes the given SQL simpleStatement which may be an INSERT, UPDATE, or DELETE simpleStatement or an SQL simpleStatement that returns nothing, such as an SQL DDL simpleStatement.
             // https://stackoverflow.com/questions/1905607/cannot-issue-data-manipulation-statements-with-executequery
-            simpleStatement.executeUpdate(SET_TIMEZONE);
-            simpleStatement.executeUpdate(QUERY_CREATE_WORKDAYS_TABLE_1 + username + QUERY_CREATE_WORKDAYS_TABLE_2);
-            simpleStatement.executeUpdate(QUERY_INSERT_CHECK_IN_INTO_WORKDAYS_TABLE_1 + username + QUERY_INSERT_CHECK_IN_INTO_WORKDAYS_TABLE_2);
+            simpleStatement.addBatch(SET_TIMEZONE);
+            simpleStatement.addBatch(QUERY_CREATE_WORKDAYS_TABLE_1 + username + QUERY_CREATE_WORKDAYS_TABLE_2);
+            simpleStatement.addBatch(QUERY_INSERT_CHECK_IN_INTO_WORKDAYS_TABLE_1 + username + QUERY_INSERT_CHECK_IN_INTO_WORKDAYS_TABLE_2);
+            simpleStatement.executeBatch();
+            simpleStatement.clearBatch();
+            Log.d(TAG, " Method --> checkIn");
+//            simpleStatement.executeUpdate(SET_TIMEZONE);
+//            simpleStatement.executeUpdate(QUERY_CREATE_WORKDAYS_TABLE_1 + username + QUERY_CREATE_WORKDAYS_TABLE_2);
+//            simpleStatement.executeUpdate(QUERY_INSERT_CHECK_IN_INTO_WORKDAYS_TABLE_1 + username + QUERY_INSERT_CHECK_IN_INTO_WORKDAYS_TABLE_2);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -216,17 +245,41 @@ public class DatabaseHandler {
         }
     }
 
-    public boolean checkOut(String username){
-        int primaryKeyId = -1;
+    public boolean checkOut(Employee employee){
+        String username = employee.getId();
+        int standard_shift_minutes = employee.getStandard_shift_hours() * 60;
+        // Getting the max id_workday from table workdays so we can get the last entry.
+        int max_id_workday_key = -1;
         try {
             simpleStatement.executeUpdate(SET_TIMEZONE);
-            ResultSet result = simpleStatement.executeQuery(QUERY_GET_LAST_ROW_PRIMARY_KEY_1 + username);
-            while(result.next()){
-                primaryKeyId = result.getInt(1);
+            ResultSet result1 = simpleStatement.executeQuery(QUERY_GET_MAX_ID_WORKDAY_KEY + username);
+            while(result1.next()){
+                max_id_workday_key = result1.getInt(1);
             }
-            if(primaryKeyId >= 0) {
-                simpleStatement.executeUpdate(QUERY_UPDATE_CHECK_OUT_INTO_WORKDAYS_TABLE_1 + username + QUERY_UPDATE_CHECK_OUT_INTO_WORKDAYS_TABLE_2 + primaryKeyId);
-                simpleStatement.executeUpdate(QUERY_UPDATE_CHECK_OUT_STATUS_INTO_WORKDAYS_TABLE_1 + username + QUERY_UPDATE_CHECK_OUT_STATUS_INTO_WORKDAYS_TABLE_2 + primaryKeyId);
+            if(max_id_workday_key >= 0) {
+                // Getting and Updating values from the last entry of workdays table
+                simpleStatement.executeUpdate(QUERY_UPDATE_CHECK_OUT_INTO_WORKDAYS_TABLE_1 + username + QUERY_UPDATE_CHECK_OUT_INTO_WORKDAYS_TABLE_2 + max_id_workday_key);
+                simpleStatement.executeUpdate(QUERY_UPDATE_CHECK_OUT_STATUS_INTO_WORKDAYS_TABLE_1 + username + QUERY_UPDATE_CHECK_OUT_STATUS_INTO_WORKDAYS_TABLE_2 + max_id_workday_key);
+
+                simpleStatement.addBatch(QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_1_1 + username + QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_1_2);
+                simpleStatement.addBatch(QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_2_1 + username + QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_2_2 + username + QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_2_3);
+                simpleStatement.addBatch(QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_3_1 + username + QUERY_UPDATE_MINUTES_WORKED_INTO_WORKDAYS_TABLE_3_2);
+                simpleStatement.executeBatch();
+                simpleStatement.clearBatch();
+
+                ResultSet result2 = simpleStatement.executeQuery(QUERY_GET_MINUTES_WORKED_FROM_WORKDAYS_TABLE_1 + username + QUERY_GET_MINUTES_WORKED_FROM_WORKDAYS_TABLE_2 + username + QUERY_GET_MINUTES_WORKED_FROM_WORKDAYS_TABLE_3);
+                int overtime = -1;
+                while(result2.next()) {
+                    overtime = result2.getInt(1) - standard_shift_minutes;
+                }
+
+                if(overtime > 0) {
+                    simpleStatement.executeUpdate(QUERY_UPDATE_OVERTIME_INTO_WORKDAYS_TABLE_1 + username + QUERY_UPDATE_OVERTIME_INTO_WORKDAYS_TABLE_2 + overtime + QUERY_UPDATE_OVERTIME_INTO_WORKDAYS_TABLE_3 + max_id_workday_key);
+                } else {
+                    simpleStatement.executeUpdate(QUERY_UPDATE_OVERTIME_INTO_WORKDAYS_TABLE_1 + username + QUERY_UPDATE_OVERTIME_INTO_WORKDAYS_TABLE_2 + 0 + QUERY_UPDATE_OVERTIME_INTO_WORKDAYS_TABLE_3 + max_id_workday_key);
+                }
+
+                Log.d(TAG, " Method --> checkOut");
                 return true;
             }
         } catch (SQLException e) {
@@ -241,7 +294,7 @@ public class DatabaseHandler {
         try {
             simpleStatement.executeUpdate(QUERY_CREATE_WORKDAYS_TABLE_1 + username + QUERY_CREATE_WORKDAYS_TABLE_2);
 
-            // Checking if we have a new empty table
+            // Checking if we have a new empty table. When a table is new and empty the button must be set up for check in.
             ResultSet resultSet = simpleStatement.executeQuery("SELECT COUNT(*) FROM workdays_" + username);
             if(resultSet.next()) {
                 if(resultSet.getInt(1) == 0)
@@ -259,17 +312,21 @@ public class DatabaseHandler {
         }
         return false;
     }
+
+//    public boolean getMonthSummary(){
+//        re
+//    }
+
     public boolean changeEmail(String email, String employeeID){
         try {
             preparedStatement.setString(1,email);
             preparedStatement.setString(2, employeeID);
             preparedStatement.executeUpdate();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-
-
-        return true;
     }
 
 }

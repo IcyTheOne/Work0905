@@ -20,8 +20,8 @@
         app:layout_constraintWidth_percent=".3333"/>
 
     <ImageButton
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/preMonthBtn"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/pre_months_btn"
@@ -32,8 +32,8 @@
         app:layout_constraintWidth_percent=".3333"/>
 
     <ImageButton
-        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/thisMonthBtn"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/this_month_btn"
@@ -45,12 +45,12 @@
         app:layout_constraintWidth_percent=".3333"/>
 
     <FrameLayout
+        android:id="@+id/fragment_container_stats"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/preMonthBtn"
-        android:id="@+id/fragment_container_stats"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

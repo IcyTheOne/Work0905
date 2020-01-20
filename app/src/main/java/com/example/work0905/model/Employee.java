@@ -11,7 +11,7 @@ public class Employee implements Serializable {
     private String last_name;
     private int salary;
     private String salary_type;
-    private int standard_shift;
+    private int standard_shift_hours;
     private int holidays_left;
     private int holidays_bonus;
     private String rfid;
@@ -84,12 +84,12 @@ public class Employee implements Serializable {
         this.salary_type = salary_type;
     }
 
-    public int getStandard_shift() {
-        return standard_shift;
+    public int getStandard_shift_hours() {
+        return standard_shift_hours;
     }
 
-    public void setStandard_shift(int standard_shift) {
-        this.standard_shift = standard_shift;
+    public void setStandard_shift_hours(int standard_shift_hours) {
+        this.standard_shift_hours = standard_shift_hours;
     }
 
     public int getHolidays_left() {
