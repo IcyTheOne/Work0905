@@ -75,8 +75,8 @@ public class ChangePass extends AppCompatActivity {
     }
     static class ChangePassTask extends AsyncTask<String, Void, Boolean>{
         private WeakReference<ChangePass> activityWeakReference;
-        Employee employee;
-        DatabaseHandler db;
+        private Employee employee;
+        private DatabaseHandler db;
 
         ChangePassTask(ChangePass activity){
             activityWeakReference = new WeakReference<ChangePass>(activity);
@@ -98,7 +98,7 @@ public class ChangePass extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            if(db.openDbConnection(DatabaseHandler.FOR_UPDATE_EMAIL) && db.changeEmail(strings[0], this.employee.getId())){
+            if(db.openDbConnection(DatabaseHandler.FOR_UPDATE_PASSWORD) && db.changePass(strings[0], this.employee.getId())){
                 Log.d(TAG, "doInBackground: " + this.employee.getId() + " : " + strings[0]);
                 return true;
             }

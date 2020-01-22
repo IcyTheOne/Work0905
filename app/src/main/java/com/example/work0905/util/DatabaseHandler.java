@@ -328,6 +328,17 @@ public class DatabaseHandler {
             return false;
         }
     }
+    public boolean changePass(String password, String employeeID){
+        try{
+            preparedStatement.setString(1,password);
+            preparedStatement.setString(2,employeeID);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
 
